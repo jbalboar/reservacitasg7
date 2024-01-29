@@ -1,4 +1,4 @@
-package pe.gob.sunat.reservacitasg7;
+package pe.gob.sunat.citas;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("fxml/login/login"));
         stage.setScene(scene);
         stage.show();
     }

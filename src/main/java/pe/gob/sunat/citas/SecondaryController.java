@@ -1,4 +1,4 @@
-package pe.gob.sunat.reservacitasg7;
+package pe.gob.sunat.citas;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
