@@ -19,23 +19,21 @@ public class UsuariosService {
         database = mongoClient.getDatabase(MongoDBConnector.getDatabaseName());
     }
     
-    public UsuarioBean findDocumentById(String id) {
+    public UsuarioBean autenticarUsuario(String dni, String password) {
     	initialize();
         MongoCollection<Document> collection = database.getCollection("usuarios");
 
-        Document query = new Document("dni", id);
-        Document resultDocument = collection.find(query).first();
+        Document filtro = new Document();
+        filtro.append("dni", dni);
+        filtro.append("password", password);
+        filtro.append("activo", true);
+        
+        Document resultDocument = collection.find(filtro).first();
 
         if (resultDocument != null) {
-            return documentToJavaBean(resultDocument, UsuarioBean.class);
+            return MongoUtils.documentToJavaBean(resultDocument, UsuarioBean.class);
         }
 
         return null;
-    }
-    
-    private <T> T documentToJavaBean(Document document, Class<T> clazz) {
-    	
-    	return MongoUtils.documentToJavaBean(document, clazz);
-    	
     }
 }
