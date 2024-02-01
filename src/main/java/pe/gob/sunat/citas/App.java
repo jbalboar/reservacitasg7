@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import pe.gob.sunat.citas.utils.CitasUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,18 +28,13 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
 
         
-        scene = new Scene(loadFXML("fxml/login/login"));
+        scene = new Scene(CitasUtils.loadFXML("fxml/login/login"));
         stage.setScene(scene);
         stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+        scene.setRoot(CitasUtils.loadFXML(fxml));
     }
 
     public static void main(String[] args) {
