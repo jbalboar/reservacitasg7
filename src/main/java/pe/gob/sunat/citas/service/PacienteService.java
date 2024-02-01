@@ -7,6 +7,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.InsertOneResult;
 
 import pe.gob.sunat.citas.bean.PacienteBean;
+import pe.gob.sunat.citas.bean.UsuarioBean;
 import pe.gob.sunat.citas.utils.MongoUtils;
 import pe.gob.sunat.mongo.MongoDBConnector;
 
@@ -36,4 +37,20 @@ public class PacienteService {
 
         return bean;
     }
+
+	public PacienteBean obtenerDatosPaciente(String dni) {
+		initialize();
+        MongoCollection<Document> collection = database.getCollection("pacientes");
+        
+        Document filtro = new Document();
+        filtro.append("dni", dni);
+        
+        Document resultDocument = collection.find(filtro).first();
+
+        if (resultDocument != null) {
+            return MongoUtils.documentToJavaBean(resultDocument, PacienteBean.class);
+        }
+
+        return null;
+	}
 }

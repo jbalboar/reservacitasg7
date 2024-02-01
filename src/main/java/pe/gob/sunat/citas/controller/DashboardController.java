@@ -1,30 +1,40 @@
 package pe.gob.sunat.citas.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
+import pe.gob.sunat.citas.bean.CatalogoBean;
+import pe.gob.sunat.citas.bean.HorariosBean;
+import pe.gob.sunat.citas.bean.MedicoBean;
 import pe.gob.sunat.citas.bean.PacienteBean;
-import pe.gob.sunat.citas.bean.UsuarioBean;
+import pe.gob.sunat.citas.service.EspecialidadService;
+import pe.gob.sunat.citas.service.HorarioService;
+import pe.gob.sunat.citas.service.MedicoService;
 import pe.gob.sunat.citas.service.PacienteService;
-import pe.gob.sunat.citas.service.UsuariosService;
 import pe.gob.sunat.citas.utils.CitasUtils;
 
 public class DashboardController {
 	
 	private final PacienteService pacienteService = new PacienteService();
+	
+	private final EspecialidadService especialidadService = new EspecialidadService();
+	
+	private final MedicoService medicoService = new MedicoService();
+	
+	private final HorarioService horarioService = new HorarioService();
 	
 	@FXML
 	private TextField txtDni;
@@ -43,17 +53,75 @@ public class DashboardController {
 	
 	@FXML
 	private TextField txtEmail;
+	
+	@FXML
+	private Pane pRegistrarPacientes;
 
+	@FXML
+	private TextField txtDniBusquedaRegistro;
+	
+	@FXML
+	private TextField txtNombrePaciente;
+	
+	@FXML
+	private ComboBox<CatalogoBean> cmbEspecialidad;
+	
+	@FXML
+	private ComboBox<MedicoBean> cmbMedico;
+	
+	@FXML
+	private ComboBox<String> cmbHorario;
+	
+	@FXML
+	private DatePicker txtFechaReserva;
 
 	@FXML
 	private void initRegistrarPacientes() {
-		//OCULTAR PANELES QUE NO LE PERTENECEN
+		pRegistrarPacientes.setVisible(true);
 	}
 	
 	@FXML
 	private void initRegistrarCitas() {
-		//OCULTAR PANELES QUE NO LE PERTENECEN
+		pRegistrarPacientes.setVisible(false);
 	}
+	
+	@FXML
+	public void initialize() {
+        ObservableList<CatalogoBean> lstEspecialidades = FXCollections.observableArrayList(especialidadService.getEspecialidades());
+		cmbEspecialidad.setItems(lstEspecialidades);
+		
+		cmbEspecialidad.setConverter(new StringConverter<CatalogoBean>() {
+            @Override
+            public String toString(CatalogoBean object) {
+                return object == null ? null : object.getDescripcion();
+            }
+
+            @Override
+            public CatalogoBean fromString(String string) {
+                return null;
+            }
+        });
+		
+		txtFechaReserva.setDayCellFactory(getDayCellFactory());
+
+		
+	}
+	
+	
+	private Callback<DatePicker, DateCell> getDayCellFactory() {
+        return datePicker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                // Deshabilitar días anteriores a la fecha actual
+                if (item != null && item.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #eeeeee;"); // Puedes personalizar el estilo según tus necesidades
+                }
+            }
+        };
+    }
 	
 	@FXML
 	private void grabarDatosPaciente(ActionEvent event) {
@@ -71,8 +139,16 @@ public class DashboardController {
 			showAlert(true);
 		}else {
 			
-		}
+		}		
+	}
+	
+	@FXML
+	private void buscarPacienteRegistro(ActionEvent event) {
+		PacienteBean pBean = pacienteService.obtenerDatosPaciente(txtDniBusquedaRegistro.getText());
 		
+		if(pBean!=null) {
+			txtNombrePaciente.setText(pBean.getNombres() + " " +pBean.getPrimerApellido() + " " + pBean.getSegundoApellido());
+		}
 	}
 	
 	private void showAlert(boolean exitoso) {
@@ -82,7 +158,31 @@ public class DashboardController {
 			alert.setContentText("Los datos se grabaron correctamente");
 			alert.showAndWait();
 		}
-		
 	}
 	
+	@FXML
+    private void handleEspecialidadChange() {
+        CatalogoBean especialidadBean = cmbEspecialidad.getValue();                
+        ObservableList<MedicoBean> lstMedicos = FXCollections.observableArrayList(medicoService.getMedicosPorEspecialidad(especialidadBean.getCodigo()));
+        cmbMedico.setItems(lstMedicos);
+		
+        cmbMedico.setConverter(new StringConverter<MedicoBean>() {
+            @Override
+            public String toString(MedicoBean object) {
+                return object == null ? null : (object.getNombres() + " " + object.getPrimerApellido() + " " + object.getSegundoApellido());
+            }
+
+            @Override
+            public MedicoBean fromString(String string) {
+                return null;
+            }
+        });
+    }
+	
+	@FXML
+    private void handleDateSelection() {
+		LocalDate selectedDate = txtFechaReserva.getValue();
+		ObservableList<String> lstHorarioDisponible = FXCollections.observableArrayList(horarioService.obtenerHorarioDisponible(selectedDate, cmbMedico.getValue()));
+		cmbHorario.setItems(lstHorarioDisponible); 
+    }
 }
