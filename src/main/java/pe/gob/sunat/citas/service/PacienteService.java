@@ -1,16 +1,12 @@
 package pe.gob.sunat.citas.service;
-
-import java.util.Date;
-
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.InsertOneResult;
 
 import pe.gob.sunat.citas.bean.PacienteBean;
-import pe.gob.sunat.citas.bean.UsuarioBean;
 import pe.gob.sunat.citas.utils.MongoUtils;
 import pe.gob.sunat.mongo.MongoDBConnector;
 
@@ -35,7 +31,9 @@ public class PacienteService {
         datos.append("fechaNacimiento", bean.getFechaNacimiento());
         datos.append("email", bean.getEmail());
         datos.append("tieneSeguro", bean.isTieneSeguro());    
-        collection.insertOne(datos);
+        InsertOneResult result = collection.insertOne(datos);       
+        bean.setId(MongoUtils.extractObjectId(result.getInsertedId()));
+
         return bean;
     }
 }

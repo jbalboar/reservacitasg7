@@ -57,7 +57,6 @@ public class UsuarioController {
         // Obtener la ventana principal
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-
         // Cambiar la escena en la ventana principal
         stage.setScene(scene);
         stage.show();

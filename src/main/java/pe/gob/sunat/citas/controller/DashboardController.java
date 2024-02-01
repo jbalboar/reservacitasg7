@@ -65,7 +65,24 @@ public class DashboardController {
 		pBean.setFechaNacimiento(CitasUtils.formatDate(txtFecNacimiento.getValue()));
 		pBean.setEmail(txtEmail.getText());
 		pBean.setTieneSeguro(true);
-		pacienteService.registrarPaciente(pBean);
+		pBean = pacienteService.registrarPaciente(pBean);
+		
+		if(pBean.getId()!=null) {
+			showAlert(true);
+		}else {
+			
+		}
+		
+	}
+	
+	private void showAlert(boolean exitoso) {
+		if(exitoso) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Información");
+			alert.setContentText("Los datos se grabaron correctamente");
+			alert.showAndWait();
+		}
+		
 	}
 	
 }

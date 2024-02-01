@@ -2,10 +2,13 @@ package pe.gob.sunat.citas.utils;
 
 import java.lang.reflect.Field;
 
+import org.bson.BsonObjectId;
+import org.bson.BsonValue;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.types.ObjectId;
 
 public class MongoUtils {
 	private static CodecRegistry codecRegistry;
@@ -44,4 +47,12 @@ public class MongoUtils {
 		}
 		return instance;
 	}
+	
+	public static ObjectId extractObjectId(BsonValue bsonValue) {
+        if (bsonValue instanceof BsonObjectId) {
+            return ((BsonObjectId) bsonValue).getValue();
+        } else {
+            throw new IllegalArgumentException("El BsonValue no es un ObjectId");
+        }
+    }
 }
