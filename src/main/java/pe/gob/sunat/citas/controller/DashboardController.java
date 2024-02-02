@@ -1,7 +1,7 @@
 package pe.gob.sunat.citas.controller;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Arrays;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,13 +17,15 @@ import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import pe.gob.sunat.citas.bean.CatalogoBean;
-import pe.gob.sunat.citas.bean.HorariosBean;
+import pe.gob.sunat.citas.bean.CitasBean;
 import pe.gob.sunat.citas.bean.MedicoBean;
 import pe.gob.sunat.citas.bean.PacienteBean;
+import pe.gob.sunat.citas.bean.ReservaCitaBean;
 import pe.gob.sunat.citas.service.EspecialidadService;
 import pe.gob.sunat.citas.service.HorarioService;
 import pe.gob.sunat.citas.service.MedicoService;
 import pe.gob.sunat.citas.service.PacienteService;
+import pe.gob.sunat.citas.service.ReservaService;
 import pe.gob.sunat.citas.utils.CitasUtils;
 
 public class DashboardController {
@@ -35,6 +37,8 @@ public class DashboardController {
 	private final MedicoService medicoService = new MedicoService();
 	
 	private final HorarioService horarioService = new HorarioService();
+	
+	private final ReservaService reservaService = new ReservaService();
 	
 	@FXML
 	private TextField txtDni;
@@ -140,6 +144,29 @@ public class DashboardController {
 		}else {
 			
 		}		
+	}
+	
+	@FXML
+	private void grabarCita(ActionEvent event) {
+		ReservaCitaBean reserva = new ReservaCitaBean();
+		reserva.setDni(txtDniBusquedaRegistro.getText());
+		
+		CitasBean cita = new CitasBean();			
+		String nombreMedico = cmbMedico.getValue().getNombres() + " " + cmbMedico.getValue().getPrimerApellido() + " " + cmbMedico.getValue().getSegundoApellido();	
+		
+		CatalogoBean cMedicoBean = new CatalogoBean();
+		cMedicoBean.setCodigo(cmbMedico.getValue().getCodigo());
+		cMedicoBean.setDescripcion(nombreMedico);
+		
+		cita.setMedico(cMedicoBean);
+		cita.setEspecialidad(cmbEspecialidad.getValue());
+		cita.setFecha(CitasUtils.formatDate(txtFechaReserva.getValue()));
+		cita.setHora(cmbHorario.getValue());
+		cita.setEstado("RESERVADO");
+		
+		reserva.setCita(Arrays.asList(cita));
+		
+		reservaService.grabarCita(reserva);
 	}
 	
 	@FXML

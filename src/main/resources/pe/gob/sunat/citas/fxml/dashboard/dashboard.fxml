@@ -43,6 +43,8 @@
                   <Label layoutX="19.0" layoutY="171.0" text="Fecha" />
                   <Label layoutX="19.0" layoutY="209.0" text="Horario" />
                   <ComboBox fx:id="cmbHorario" layoutX="88.0" layoutY="205.0" prefWidth="150.0" />
+                  <Button fx:id="btnGrabarCita" layoutX="89.0" layoutY="254.0" mnemonicParsing="false" onAction="#grabarCita" text="Grabar" />
+                  <Button fx:id="btnLimpiarCita" layoutX="163.0" layoutY="254.0" mnemonicParsing="false" text="Limpiar" />
                </children>
             </Pane>
             <Pane fx:id="pRegistrarPacientes" prefHeight="401.6" prefWidth="436.0" style="-fx-background-color: #a2d5d8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
