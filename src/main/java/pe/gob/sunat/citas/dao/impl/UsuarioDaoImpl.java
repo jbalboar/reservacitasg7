@@ -1,4 +1,4 @@
-package pe.gob.sunat.citas.service;
+package pe.gob.sunat.citas.dao.impl;
 
 import org.bson.Document;
 
@@ -7,10 +7,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 import pe.gob.sunat.citas.bean.UsuarioBean;
+import pe.gob.sunat.citas.dao.UsuarioDao;
 import pe.gob.sunat.citas.utils.MongoUtils;
 import pe.gob.sunat.mongo.MongoDBConnector;
 
-public class UsuariosService {
+public class UsuarioDaoImpl implements UsuarioDao {
 	private MongoClient mongoClient;
     private MongoDatabase database;
 
@@ -19,6 +20,7 @@ public class UsuariosService {
         database = mongoClient.getDatabase(MongoDBConnector.getDatabaseName());
     }
     
+    @Override
     public UsuarioBean autenticarUsuario(String dni, String password) {
     	initialize();
         MongoCollection<Document> collection = database.getCollection("usuarios");

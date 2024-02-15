@@ -21,24 +21,24 @@ import pe.gob.sunat.citas.bean.CitasBean;
 import pe.gob.sunat.citas.bean.MedicoBean;
 import pe.gob.sunat.citas.bean.PacienteBean;
 import pe.gob.sunat.citas.bean.ReservaCitaBean;
-import pe.gob.sunat.citas.service.EspecialidadService;
-import pe.gob.sunat.citas.service.HorarioService;
-import pe.gob.sunat.citas.service.MedicoService;
-import pe.gob.sunat.citas.service.PacienteService;
-import pe.gob.sunat.citas.service.ReservaService;
+import pe.gob.sunat.citas.dao.impl.EspecialidadDaoImpl;
+import pe.gob.sunat.citas.dao.impl.HorarioDaoImpl;
+import pe.gob.sunat.citas.dao.impl.MedicoDaoImpl;
+import pe.gob.sunat.citas.dao.impl.PacienteDaoImpl;
+import pe.gob.sunat.citas.dao.impl.ReservaDaoImpl;
 import pe.gob.sunat.citas.utils.CitasUtils;
 
 public class DashboardController {
 	
-	private final PacienteService pacienteService = new PacienteService();
+	private final PacienteDaoImpl pacienteService = new PacienteDaoImpl();
 	
-	private final EspecialidadService especialidadService = new EspecialidadService();
+	private final EspecialidadDaoImpl especialidadService = new EspecialidadDaoImpl();
 	
-	private final MedicoService medicoService = new MedicoService();
+	private final MedicoDaoImpl medicoService = new MedicoDaoImpl();
 	
-	private final HorarioService horarioService = new HorarioService();
+	private final HorarioDaoImpl horarioService = new HorarioDaoImpl();
 	
-	private final ReservaService reservaService = new ReservaService();
+	private final ReservaDaoImpl reservaService = new ReservaDaoImpl();
 	
 	@FXML
 	private TextField txtDni;

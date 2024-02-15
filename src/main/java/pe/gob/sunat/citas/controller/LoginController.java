@@ -2,12 +2,13 @@ package pe.gob.sunat.citas.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -17,10 +18,10 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 import pe.gob.sunat.citas.bean.UsuarioBean;
-import pe.gob.sunat.citas.service.UsuariosService;
+import pe.gob.sunat.citas.dao.impl.UsuarioDaoImpl;
 import pe.gob.sunat.citas.utils.CitasUtils;
 
-public class UsuarioController {
+public class LoginController implements Initializable{
 	@FXML
 	private TextField txtUser;
 
@@ -30,13 +31,13 @@ public class UsuarioController {
 	@FXML
 	private ImageView imgLogin;
 
-	private final UsuariosService usuarioService = new UsuariosService();
+	private final UsuarioDaoImpl usuarioService = new UsuarioDaoImpl();
 
-	@FXML
-	public void initialize() {
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 		InputStream is = getClass().getResourceAsStream("/pe/gob/sunat/citas/png/logo.png");
 		Image image = new Image(is);
-		imgLogin = new ImageView(image);
+		imgLogin = new ImageView(image);		
 	}
 
 	@FXML
@@ -44,6 +45,7 @@ public class UsuarioController {
 		UsuarioBean result = usuarioService.autenticarUsuario(txtUser.getText(), txtPassword.getText());
 
 		if (result != null) {
+			MenuController.setUsuario(result.getNombres());
 			mostrarDashboard(event);
 		} else {
 			showAlert();
@@ -52,7 +54,7 @@ public class UsuarioController {
 
 	private void mostrarDashboard(ActionEvent event) throws IOException {
         // Crear una nueva escena
-        Scene scene = new Scene(CitasUtils.loadFXML("fxml/dashboard/dashboard"));
+        Scene scene = new Scene(CitasUtils.loadFXML("fxml/dashboard/default"));
 
         // Obtener la ventana principal
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -69,4 +71,6 @@ public class UsuarioController {
 		alert.setContentText("Credenciales inválidas");
 		alert.showAndWait();
 	}
+
+
 }

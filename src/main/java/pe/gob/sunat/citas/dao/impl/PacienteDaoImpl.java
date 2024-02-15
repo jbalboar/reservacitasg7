@@ -1,4 +1,4 @@
-package pe.gob.sunat.citas.service;
+package pe.gob.sunat.citas.dao.impl;
 import org.bson.Document;
 
 import com.mongodb.client.MongoClient;
@@ -7,11 +7,11 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.InsertOneResult;
 
 import pe.gob.sunat.citas.bean.PacienteBean;
-import pe.gob.sunat.citas.bean.UsuarioBean;
+import pe.gob.sunat.citas.dao.PacienteDao;
 import pe.gob.sunat.citas.utils.MongoUtils;
 import pe.gob.sunat.mongo.MongoDBConnector;
 
-public class PacienteService {
+public class PacienteDaoImpl implements PacienteDao{
 	private MongoClient mongoClient;
     private MongoDatabase database;
     
@@ -20,6 +20,7 @@ public class PacienteService {
         database = mongoClient.getDatabase(MongoDBConnector.getDatabaseName());
     }
     
+    @Override
     public PacienteBean registrarPaciente(PacienteBean bean) {
     	initialize();
         MongoCollection<Document> collection = database.getCollection("pacientes");
@@ -38,6 +39,7 @@ public class PacienteService {
         return bean;
     }
 
+    @Override
 	public PacienteBean obtenerDatosPaciente(String dni) {
 		initialize();
         MongoCollection<Document> collection = database.getCollection("pacientes");

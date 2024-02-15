@@ -1,4 +1,4 @@
-package pe.gob.sunat.citas.service;
+package pe.gob.sunat.citas.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +11,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 import pe.gob.sunat.citas.bean.CatalogoBean;
+import pe.gob.sunat.citas.dao.EspecialidadDao;
 import pe.gob.sunat.citas.utils.MongoUtils;
 import pe.gob.sunat.mongo.MongoDBConnector;
 
-public class EspecialidadService {
+public class EspecialidadDaoImpl implements EspecialidadDao{
 	private MongoClient mongoClient;
     private MongoDatabase database;
     
@@ -23,6 +24,7 @@ public class EspecialidadService {
         database = mongoClient.getDatabase(MongoDBConnector.getDatabaseName());
     }
 
+    @Override
 	public List<CatalogoBean> getEspecialidades() {
 		initialize();
         MongoCollection<Document> collection = database.getCollection("especialidades");

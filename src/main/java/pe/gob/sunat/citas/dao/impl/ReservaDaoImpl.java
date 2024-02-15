@@ -1,7 +1,6 @@
-package pe.gob.sunat.citas.service;
+package pe.gob.sunat.citas.dao.impl;
 
 import java.util.Arrays;
-import java.util.Date;
 
 import org.bson.Document;
 
@@ -10,15 +9,14 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
-import com.mongodb.client.result.UpdateResult;
 
-import pe.gob.sunat.citas.bean.CatalogoBean;
 import pe.gob.sunat.citas.bean.CitasBean;
 import pe.gob.sunat.citas.bean.ReservaCitaBean;
+import pe.gob.sunat.citas.dao.ReservaDao;
 import pe.gob.sunat.citas.utils.MongoUtils;
 import pe.gob.sunat.mongo.MongoDBConnector;
 
-public class ReservaService {
+public class ReservaDaoImpl implements ReservaDao {
 
 	private MongoClient mongoClient;
     private MongoDatabase database;
@@ -28,6 +26,7 @@ public class ReservaService {
         database = mongoClient.getDatabase(MongoDBConnector.getDatabaseName());
     }
     
+    @Override
 	public ReservaCitaBean grabarCita(ReservaCitaBean reserva) {
 		initialize();
 		MongoCollection<Document> collection = database.getCollection("citas");

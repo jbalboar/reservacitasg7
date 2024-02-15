@@ -1,4 +1,4 @@
-package pe.gob.sunat.citas.service;
+package pe.gob.sunat.citas.dao.impl;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,10 +10,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 import pe.gob.sunat.citas.bean.MedicoBean;
+import pe.gob.sunat.citas.dao.HorarioDao;
 import pe.gob.sunat.citas.utils.CitasUtils;
 import pe.gob.sunat.mongo.MongoDBConnector;
 
-public class HorarioService {
+public class HorarioDaoImpl implements HorarioDao{
 	private MongoClient mongoClient;
     private MongoDatabase database;
     
@@ -22,6 +23,7 @@ public class HorarioService {
         database = mongoClient.getDatabase(MongoDBConnector.getDatabaseName());
     }
 
+    @Override
 	public List<String> obtenerHorarioDisponible(LocalDate localDate, MedicoBean bean) {
 		initialize();
         MongoCollection<Document> collection = database.getCollection("horariosReservados");

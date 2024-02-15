@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+	prefWidth="600.0" xmlns="http://javafx.com/javafx/21"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="pe.gob.sunat.citas.controller.CitasController">
+	<fx:include source="menu.fxml" />
+
+	<Pane prefHeight="400.0" prefWidth="433.6"
+		style="-fx-background-color: #d3c199;" AnchorPane.bottomAnchor="0.0"
+		AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+		AnchorPane.topAnchor="0.0">
+		<children>
+			<Label layoutX="16.0" layoutY="33.0" text="DNI" />
+			<TextField fx:id="txtDniBusquedaRegistro" layoutX="89.0"
+				layoutY="29.0" prefHeight="25.0" prefWidth="95.0" />
+			<Button fx:id="btnBuscarPacienteCita" layoutX="202.0"
+				layoutY="29.0" mnemonicParsing="false"
+				onAction="#buscarPacienteRegistro" text="Buscar" />
+			<Label layoutX="17.0" layoutY="66.0" text="Paciente" />
+			<TextField fx:id="txtNombrePaciente" disable="true"
+				layoutX="89.0" layoutY="62.0" prefHeight="25.0" prefWidth="328.0" />
+			<Label layoutX="14.0" layoutY="98.0" text="Especialidad" />
+			<ComboBox fx:id="cmbEspecialidad" layoutX="88.0"
+				layoutY="94.0" onAction="#handleEspecialidadChange"
+				prefWidth="150.0" />
+			<ComboBox fx:id="cmbMedico" layoutX="88.0" layoutY="129.0"
+				prefWidth="150.0" />
+			<Label layoutX="17.0" layoutY="133.0" text="Médico" />
+			<DatePicker fx:id="txtFechaReserva" layoutX="88.0"
+				layoutY="167.0" onAction="#handleDateSelection" />
+			<Label layoutX="19.0" layoutY="171.0" text="Fecha" />
+			<Label layoutX="19.0" layoutY="209.0" text="Horario" />
+			<ComboBox fx:id="cmbHorario" layoutX="88.0" layoutY="205.0"
+				prefWidth="150.0" />
+			<Button fx:id="btnGrabarCita" layoutX="89.0" layoutY="254.0"
+				mnemonicParsing="false" onAction="#grabarCita" text="Grabar" />
+			<Button fx:id="btnLimpiarCita" layoutX="163.0" layoutY="254.0"
+				mnemonicParsing="false" text="Limpiar" />
+		</children>
+	</Pane>
+</HBox>
