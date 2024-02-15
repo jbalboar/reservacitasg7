@@ -40,6 +40,18 @@ public class MenuController {
 		mostrarPanel(event, "citas");
 	}
 	
+	@FXML
+	private void initConsultarPacientes(ActionEvent event) throws Exception{
+		mostrarPanel(event, "consultas");
+	}
+	
+	@FXML
+	private void initEstadisticas(ActionEvent event) throws Exception{
+		mostrarPanel(event, "graficos");
+	}
+	
+	
+		
 	private void mostrarPanel(ActionEvent event, String fxml) throws IOException {
         // Crear una nueva escena
         Scene scene = new Scene(CitasUtils.loadFXML("fxml/dashboard/" + fxml));

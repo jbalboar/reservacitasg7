@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.gob.sunat.citas.controller.ConsultasController">
+   <fx:include source="menu.fxml" />
+   <Pane prefHeight="400.0" prefWidth="434.0" style="-fx-background-color: #acc38b;">
+      <children>
+         <GridPane layoutX="24.0" layoutY="22.0" prefWidth="390.0">
+           <columnConstraints>
+             <ColumnConstraints hgrow="SOMETIMES" maxWidth="218.60003662109375" minWidth="10.0" prefWidth="120.80001220703124" />
+             <ColumnConstraints hgrow="SOMETIMES" maxWidth="312.79998779296875" minWidth="10.0" prefWidth="312.79998779296875" />
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+           </rowConstraints>
+            <children>
+               <Label prefHeight="18.0" prefWidth="31.0" text="DNI" />
+               <Label text="Nombres" GridPane.rowIndex="1" />
+               <Label text="Primer Apellido" GridPane.rowIndex="2" />
+               <Label text="Segundo Apellido" GridPane.rowIndex="3" />
+               <TextField fx:id="txtDni" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="90.0" GridPane.columnIndex="1" />
+               <TextField fx:id="txtNombres" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <TextField fx:id="txtPrimerApellido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+               <TextField fx:id="txtSegundoApellido" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            </children>
+         </GridPane>
+         <Button layoutX="192.0" layoutY="152.0" mnemonicParsing="false" onAction="#buscarPaciente" text="Buscar" />
+         <Pane layoutY="186.0" prefHeight="214.0" prefWidth="434.0">
+            <children>
+               <TableView fx:id="tblPacientes" layoutY="7.0" prefHeight="200.0" prefWidth="434.0">
+                 <columns>
+                   <TableColumn fx:id="columnDni" prefWidth="75.0" text="DNI" />
+                   <TableColumn fx:id="columnNombre" prefWidth="75.0" text="Nombres" />
+                     <TableColumn fx:id="columnPrimerApellido" prefWidth="100.800048828125" text="Primer Apellido" />
+                     <TableColumn fx:id="columnSegundoApellido" prefWidth="84.7999267578125" text="Segundo Apellido" />
+                     <TableColumn fx:id="columnFechaNacimiento" prefWidth="91.199951171875" text="Fec.Nacimiento" />
+                 </columns>
+               </TableView>
+            </children>
+         </Pane>
+      </children>
+   </Pane>
+   
+</HBox>

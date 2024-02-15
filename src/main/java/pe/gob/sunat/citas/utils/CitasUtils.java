@@ -1,6 +1,7 @@
 package pe.gob.sunat.citas.utils;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Arrays;
@@ -34,5 +35,18 @@ public class CitasUtils {
         }
 		
 		return lstHorarios;
+	}
+	
+	public static boolean esDiferenteNuloVacio(String valor) {
+		if(valor!=null && !valor.isEmpty())
+			return true;
+		
+		return false;
+		
+	}
+
+	public static String dateToString(Date date) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(date);
 	}
 }

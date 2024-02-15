@@ -1,13 +1,22 @@
 package pe.gob.sunat.citas.dao.impl;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bson.Document;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.InsertOneResult;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import pe.gob.sunat.citas.bean.MedicoBean;
 import pe.gob.sunat.citas.bean.PacienteBean;
+import pe.gob.sunat.citas.bean.PacienteViewBean;
 import pe.gob.sunat.citas.dao.PacienteDao;
+import pe.gob.sunat.citas.utils.CitasUtils;
 import pe.gob.sunat.citas.utils.MongoUtils;
 import pe.gob.sunat.mongo.MongoDBConnector;
 
@@ -54,5 +63,37 @@ public class PacienteDaoImpl implements PacienteDao{
         }
 
         return null;
+	}
+
+	@Override
+	public ObservableList<PacienteViewBean> buscarPacientes(PacienteBean bean) {
+		initialize();
+        MongoCollection<Document> collection = database.getCollection("pacientes");
+        Document filtro = new Document();
+        
+        if(CitasUtils.esDiferenteNuloVacio(bean.getDni()))
+        	filtro.append("dni", bean.getDni());
+        
+        if(CitasUtils.esDiferenteNuloVacio(bean.getNombres()))
+        	filtro.append("nombres", bean.getNombres());
+        
+        if(CitasUtils.esDiferenteNuloVacio(bean.getPrimerApellido()))
+        	filtro.append("primerApellido", bean.getPrimerApellido());
+        
+        if(CitasUtils.esDiferenteNuloVacio(bean.getSegundoApellido()))
+        	filtro.append("segundoApellido", bean.getSegundoApellido());
+        
+        
+        FindIterable<Document> lstDocument = collection.find(filtro);
+        
+        ObservableList<PacienteViewBean> lstPacientes = FXCollections.observableArrayList();
+        
+        for (Document document : lstDocument) {
+			lstPacientes.add(new PacienteViewBean(document.getString("dni"), document.getString("nombres"),
+					document.getString("primerApellido"), document.getString("segundoApellido"), CitasUtils.dateToString(document.getDate("fechaNacimiento"))
+					));			
+		} 
+        
+		return lstPacientes;
 	}
 }
