@@ -49,4 +49,12 @@ public class CitasUtils {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
 	}
+	
+	public static String documentToString(Document dato) {
+		
+		String codigo = dato.getString("codigo");
+		String descripcion = dato.getString("descripcion");
+		
+        return codigo.concat("-").concat(descripcion);
+	}
 }

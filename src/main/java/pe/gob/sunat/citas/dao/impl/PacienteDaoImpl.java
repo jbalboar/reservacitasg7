@@ -88,11 +88,11 @@ public class PacienteDaoImpl implements PacienteDao{
         
         ObservableList<PacienteViewBean> lstPacientes = FXCollections.observableArrayList();
         
-        for (Document document : lstDocument) {
+		for (Document document : lstDocument) {
 			lstPacientes.add(new PacienteViewBean(document.getString("dni"), document.getString("nombres"),
-					document.getString("primerApellido"), document.getString("segundoApellido"), CitasUtils.dateToString(document.getDate("fechaNacimiento"))
-					));			
-		} 
+					document.getString("primerApellido"), document.getString("segundoApellido"),
+					CitasUtils.dateToString(document.getDate("fechaNacimiento")), document.getString("email")));
+		}
         
 		return lstPacientes;
 	}

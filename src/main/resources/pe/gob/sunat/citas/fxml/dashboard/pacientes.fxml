@@ -42,7 +42,7 @@
 				layoutY="271.0" mnemonicParsing="false"
 				onAction="#grabarDatosPaciente" text="Grabar" />
 			<Button layoutX="232.0" layoutY="271.0"
-				mnemonicParsing="false" text="Limpiar" />
+				mnemonicParsing="false" text="Limpiar" onAction="#limpiarDatos" />
 		</children>
 	</Pane>
 </HBox>

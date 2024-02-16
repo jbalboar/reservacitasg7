@@ -8,14 +8,16 @@ public class PacienteViewBean {
 	private SimpleStringProperty primerApellido;
 	private SimpleStringProperty segundoApellido;
 	private SimpleStringProperty fechaNacimiento;
+	private SimpleStringProperty email;
 
 	public PacienteViewBean(String dni, String nombres, String primerApellido, String segundoApellido,
-			String fechaNacimiento) {
+			String fechaNacimiento, String email) {
 		this.dni = new SimpleStringProperty(dni);
 		this.nombres = new SimpleStringProperty(nombres);
 		this.primerApellido = new SimpleStringProperty(primerApellido);
 		this.segundoApellido = new SimpleStringProperty(segundoApellido);
 		this.fechaNacimiento = new SimpleStringProperty(fechaNacimiento);
+		this.email = new SimpleStringProperty(email);
 	}
 
 	public String getDni() {
@@ -56,5 +58,13 @@ public class PacienteViewBean {
 
 	public String getFechaNacimiento() {
 		return fechaNacimiento.get();
+	}
+	
+	public String getEmail() {
+		return email.get();
+	}
+
+	public SimpleStringProperty emailProperty() {
+		return email;
 	}
 }

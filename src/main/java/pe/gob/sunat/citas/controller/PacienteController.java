@@ -46,15 +46,32 @@ public class PacienteController {
 		if(pBean.getId()!=null) {
 			showAlert(true);
 		}else {
-			
-		}		
+			showAlert(false);
+		}
+		
+		limpiarDatos();
 	}
 	
+	@FXML
+	private void limpiarDatos() {
+		txtDni.clear();
+		txtNombres.clear();
+		txtPrimerApellido.clear();
+		txtSegundoApellido.clear();
+		txtFecNacimiento.setValue(null);
+		txtEmail.clear();
+	}
+
 	private void showAlert(boolean exitoso) {
 		if(exitoso) {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Información");
 			alert.setContentText("Los datos se grabaron correctamente");
+			alert.showAndWait();
+		}else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("Ocurrió una excepción al grabar los datos del paciente");
 			alert.showAndWait();
 		}
 	}

@@ -1,6 +1,7 @@
 package pe.gob.sunat.citas.dao.impl;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.bson.Document;
 
@@ -10,9 +11,14 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import pe.gob.sunat.citas.bean.CitasBean;
+import pe.gob.sunat.citas.bean.CitasReservadasViewBean;
+import pe.gob.sunat.citas.bean.PacienteViewBean;
 import pe.gob.sunat.citas.bean.ReservaCitaBean;
 import pe.gob.sunat.citas.dao.ReservaDao;
+import pe.gob.sunat.citas.utils.CitasUtils;
 import pe.gob.sunat.citas.utils.MongoUtils;
 import pe.gob.sunat.mongo.MongoDBConnector;
 
@@ -89,6 +95,34 @@ public class ReservaDaoImpl implements ReservaDao {
    
 		return reserva;
 		
+	}
+
+	@Override
+	public ObservableList<CitasReservadasViewBean> listarCitas(String dni) {
+		initialize();
+		MongoCollection<Document> collection = database.getCollection("citas");
+		Document filtro = new Document();
+		filtro.append("dni", dni);
+		
+		Document document =  collection.find(filtro).first();
+		
+		if(document!=null) {
+			List<Document> lstCitas = document.getList("cita", Document.class);
+			
+			ObservableList<CitasReservadasViewBean> listObservable = FXCollections.observableArrayList();
+			
+			for (Document cita : lstCitas) {	
+				listObservable.add(new CitasReservadasViewBean(CitasUtils.dateToString(cita.getDate("fecha")), cita.getString("hora"),  CitasUtils.documentToString((Document)cita.get("medico")),
+						CitasUtils.documentToString((Document)cita.get("especialidad")), cita.getString("estado")));
+			}
+			
+			
+			System.out.println(listObservable);
+			
+			return listObservable;
+		}
+		
+		return null;
 	}
 
 }
