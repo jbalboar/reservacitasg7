@@ -46,7 +46,7 @@
 				prefWidth="150.0" />
 			<Button fx:id="btnGrabarCita" layoutX="89.0" layoutY="254.0"
 				mnemonicParsing="false" onAction="#grabarCita" text="Grabar" />
-			<Button fx:id="btnLimpiarCita" layoutX="163.0" layoutY="254.0"
+			<Button fx:id="btnLimpiarCita" onAction="#limpiarFormulario"  layoutX="163.0" layoutY="254.0"
 				mnemonicParsing="false" text="Limpiar" />
 		</children>
 	</Pane>

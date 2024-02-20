@@ -4,9 +4,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
-
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pe.gob.sunat.citas.controller.LoginController">
    <children>
@@ -15,6 +15,9 @@
       <TextField id="txtUser" fx:id="txtUser" layoutX="157.0" layoutY="165.0" />
       <Button id="btnIngresar" layoutX="198.0" layoutY="243.0" mnemonicParsing="false" onAction="#validarIngreso" text="Ingresar" />
       <PasswordField id="txtPassword" fx:id="txtPassword" layoutX="157.0" layoutY="200.0" />
-      <ImageView fx:id="imgLogin" fitHeight="106.0" fitWidth="176.0" layoutX="110.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imgLogin" fitHeight="106.0" fitWidth="176.0" layoutX="152.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../png/logo.png" />
+         </image></ImageView>
    </children>
 </Pane>

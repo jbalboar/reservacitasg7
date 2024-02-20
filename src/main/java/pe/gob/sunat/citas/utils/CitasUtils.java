@@ -23,7 +23,7 @@ public class CitasUtils {
 	}
 
 	public static Date formatDate(LocalDate datePicker) {
-		return Date.from(datePicker.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		return datePicker==null?null:Date.from(datePicker.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 	
 	public static List<String> getHorarioLibre(Document document){

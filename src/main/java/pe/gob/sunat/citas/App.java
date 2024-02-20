@@ -30,6 +30,7 @@ public class App extends Application {
         
         scene = new Scene(CitasUtils.loadFXML("fxml/login/login"));
         stage.setScene(scene);
+        stage.setTitle("GRUPO 4 - G7 - Sistema de Reserva de Citas Médicas");
         stage.show();
     }
 

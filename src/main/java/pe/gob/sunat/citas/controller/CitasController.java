@@ -77,6 +77,16 @@ public class CitasController {
 
 		txtFechaReserva.setDayCellFactory(getDayCellFactory());
 	}
+	
+	@FXML
+	private void limpiarFormulario() {
+		txtDniBusquedaRegistro.clear();
+		txtNombrePaciente.clear();
+		cmbEspecialidad.setValue(new CatalogoBean());
+		cmbMedico.setValue(new MedicoBean());
+		cmbHorario.setValue("");
+		txtFechaReserva.setValue(null);
+	}
 
 	@FXML
 	private void grabarCita(ActionEvent event) {
@@ -101,6 +111,7 @@ public class CitasController {
 
 		try {
 			reservaService.grabarCita(reserva);
+			limpiarFormulario();
 			showAlert(true);
 		}catch(Exception e) {
 			showAlert(false);
