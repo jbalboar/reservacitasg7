@@ -38,6 +38,7 @@
             </children>
          </GridPane>
          <Button layoutX="192.0" layoutY="152.0" mnemonicParsing="false" onAction="#buscarPaciente" text="Buscar" />
+         <Button fx:id="btnReporte" layoutX="288.0" layoutY="152.0" mnemonicParsing="false" onAction="#onVerReporte" text="Ver Reporte de Citas" />
          <Pane layoutY="186.0" prefHeight="214.0" prefWidth="434.0">
             <children>
                <TableView fx:id="tblPacientes" layoutY="7.0" prefHeight="200.0" prefWidth="434.0">

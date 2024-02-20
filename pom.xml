@@ -42,6 +42,13 @@
 			<version>1.18.30</version>
 			<scope>provided</scope>
 		</dependency>
+	<!-- P01 -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.20.1</version>
+		</dependency>
+		<!-- Fin P01 -->
 	</dependencies>
 	<build>
 		<plugins>

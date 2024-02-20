@@ -1,11 +1,15 @@
 package pe.gob.sunat.citas.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -15,11 +19,23 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import pe.gob.sunat.citas.App;
+import pe.gob.sunat.citas.bean.CitasReservadasViewBean;
 import pe.gob.sunat.citas.bean.PacienteBean;
 import pe.gob.sunat.citas.bean.PacienteViewBean;
 import pe.gob.sunat.citas.dao.PacienteDao;
+import pe.gob.sunat.citas.dao.ReservaDao;
 import pe.gob.sunat.citas.dao.impl.PacienteDaoImpl;
+import pe.gob.sunat.citas.dao.impl.ReservaDaoImpl;
 
 public class ConsultasController {
 	
@@ -55,6 +71,7 @@ public class ConsultasController {
     
 	
 	private final PacienteDao pacienteDao = new PacienteDaoImpl();
+	private final ReservaDao reservaDao = new ReservaDaoImpl(); //P01
 	
 	public void initialize() {
 
@@ -123,4 +140,55 @@ public class ConsultasController {
         });
 		
 	}
+	//--P01
+	@FXML
+	private void onVerReporte(ActionEvent event) {
+        System.out.println("Generando reporte...");
+        JasperPrint printer = buildPrint();
+        System.out.println("Visualizando reporte...");
+        JasperViewer.viewReport(printer,false);        
+    }
+
+    private JasperPrint buildPrint() {    	
+    	String jasper="src/main/resources/reporte_cita.jrxml";
+    	Map<String, Object> parameters = new HashMap<>();
+        
+        ObservableList<PacienteViewBean>  lstPacientesRpte = pacienteDao.listarPacientes();
+        ArrayList<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
+        
+        for(PacienteViewBean paciente:lstPacientesRpte) {
+        	ObservableList<CitasReservadasViewBean> lstCitasRpte  = reservaDao.listarCitas(paciente.getDni());
+        	if(lstCitasRpte!=null && lstCitasRpte.size()>0) {
+	        	for(CitasReservadasViewBean cita:lstCitasRpte) {
+	        		Map<String, Object> dmap = new HashMap<>();
+	        		dmap.put("dni", paciente.getDni());
+	        		dmap.put("paciente",paciente.getNombres()+" "+paciente.getPrimerApellido()+" "+paciente.getSegundoApellido());
+	        		dmap.put("fecha", cita.getFecha());
+	        		dmap.put("hora", cita.getHora());
+	        		dmap.put("medico", cita.getMedico());
+	        		dmap.put("especialidad", cita.getEspecialidad());
+	        		dmap.put("estado", cita.getEstado());
+	        		dataList.add(dmap);
+	        	}
+        	}
+        }        
+        
+        JRBeanCollectionDataSource beanColDataSource =new JRBeanCollectionDataSource(dataList);
+        parameters.put("ReportTitle", "Lista de Citas por Paciente");
+        parameters.put("Author", "Equipo Grupo 4");
+      
+		JasperReport jasperReport;
+		//--
+		try {
+			JasperDesign jasperdesign = JRXmlLoader.load(jasper);
+			jasperReport = JasperCompileManager.compileReport(jasperdesign);
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanColDataSource);
+			return jasperPrint;
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+    }
+	//--Fin P01
 }

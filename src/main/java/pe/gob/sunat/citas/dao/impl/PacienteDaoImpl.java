@@ -96,4 +96,23 @@ public class PacienteDaoImpl implements PacienteDao{
         
 		return lstPacientes;
 	}
+	
+	@Override
+	public ObservableList<PacienteViewBean> listarPacientes() {
+		initialize();
+        MongoCollection<Document> collection = database.getCollection("pacientes");
+        Document filtro = new Document();        
+        
+        FindIterable<Document> lstDocument = collection.find(filtro);
+        
+        ObservableList<PacienteViewBean> lstPacientes = FXCollections.observableArrayList();
+        
+		for (Document document : lstDocument) {
+			lstPacientes.add(new PacienteViewBean(document.getString("dni"), document.getString("nombres"),
+					document.getString("primerApellido"), document.getString("segundoApellido"),
+					CitasUtils.dateToString(document.getDate("fechaNacimiento")), document.getString("email")));
+		}
+        
+		return lstPacientes;
+	}
 }

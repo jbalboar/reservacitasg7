@@ -7,10 +7,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import pe.gob.sunat.citas.bean.CatalogoBean;
@@ -97,7 +99,27 @@ public class CitasController {
 
 		reserva.setCita(Arrays.asList(cita));
 
-		reservaService.grabarCita(reserva);
+		try {
+			reservaService.grabarCita(reserva);
+			showAlert(true);
+		}catch(Exception e) {
+			showAlert(false);
+		}
+		
+	}
+	
+	private void showAlert(boolean exitoso) {
+		if(exitoso) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Información");
+			alert.setContentText("La cita se generó correctamente");
+			alert.showAndWait();
+		}else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setContentText("Ocurrió una excepción al grabar a cita del paciente");
+			alert.showAndWait();
+		}
 	}
 
 	@FXML

@@ -12,4 +12,5 @@ public interface PacienteDao {
 	PacienteBean registrarPaciente(PacienteBean bean);
 
 	ObservableList<PacienteViewBean> buscarPacientes(PacienteBean bean);
+	ObservableList<PacienteViewBean> listarPacientes();
 }
